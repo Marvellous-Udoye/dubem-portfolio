@@ -1,142 +1,74 @@
-# Stratopreter
+# Dubem Portfolio
 
-Stratopreter is an innovative web application built for Syntax Error, designed to provide a rich, interactive user experience. It leverages the power of Three.js for 3D rendering, along with various UI/UX-enhancing libraries like Swiper, Slater, GSAP, and Finsweet.
+A static portfolio site for Onyilimba Dubemchukwu Fidelis, based on the Stratopreter/Webflow export.
 
-## Tech Stack
+The site is served as plain HTML, CSS, JavaScript, images, and videos. It is not a React/Vite app, so there is no build step.
 
-### Frontend
-- **Three.js**: Used for creating and rendering 3D models and scenes.
-- **HTML & CSS**: Core technologies for structuring and styling the web application.
-- **Swiper**: A modern touch slider used for creating interactive sliders with smooth animations.
-- **Slater**: Provides elegant transitions and animations to enhance the overall visual aesthetics.
-- **GSAP (GreenSock Animation Platform)**: Handles complex animations for UI elements, adding smooth transitions and interactivity.
-- **Finsweet**: Used to create customizable sliders and dynamic elements in Webflow.
+## Project Structure
 
-## Features
-- **3D Interaction**: The app provides an immersive 3D experience using Three.js for rendering interactive models.
-- **Swiper Integration**: Seamless swiping experience for different sections, especially for galleries and dynamic content presentation.
-- **Advanced Animations**: Powered by GSAP for smooth and performant transitions across various elements.
-- **Finsweet Components**: Customizable CMS sliders for dynamically generated content, providing a rich user interface with draggable and loopable slides.
-
-## Installation
-
-To set up the project locally, follow these steps:
-
-### Prerequisites:
-- Node.js
-- npm or yarn package manager
-
-### Steps:
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/stratopreter.git
-   cd stratopreter
-   ```
-
-2. Install Dependencies:
-```bash
-  npm install
+```text
+.
+├── files/              # CSS, JavaScript libraries, and bundled template assets
+├── syntax/             # Main site pages and media
+│   ├── index.html      # Home page
+│   ├── project.html    # Project page placeholder/export
+│   ├── videos/         # Hero video assets
+│   └── team/           # Team/profile media
+├── package.json        # Local static server scripts
+├── package-lock.json
+└── vercel.json         # Vercel rewrite config
 ```
 
-3. Start the developement server:
-```bash
-  npm run dev
+## Local Development
+
+Install dependencies:
+
+```powershell
+npm install
 ```
 
-4. Build the project:
-```bash
-  npm run build
-```
-# Usage
-## Initializing Three.js
-Three.js powers the 3D models and interaction, with the following basic setup:
+Start the local static server:
 
-```ruby
-import * as THREE from 'three';
-
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-// Add objects to the scene
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
-
-camera.position.z = 5;
-
-const animate = function () {
-  requestAnimationFrame(animate);
-
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
-
-  renderer.render(scene, camera);
-};
-
-animate();
+```powershell
+npm run dev
 ```
 
-## Swiper Integration
-Here’s how we integrate the Swiper slider into the app:
+Open:
 
-```ruby
-<div class="swiper-container">
-  <div class="swiper-wrapper">
-    <div class="swiper-slide">Slide 1</div>
-    <div class="swiper-slide">Slide 2</div>
-    <div class="swiper-slide">Slide 3</div>
-  </div>
-  <!-- Add Pagination -->
-  <div class="swiper-pagination"></div>
-  <!-- Add Navigation -->
-  <div class="swiper-button-next"></div>
-  <div class="swiper-button-prev"></div>
-</div>
-
-<script>
-  const swiper = new Swiper('.swiper-container', {
-    direction: 'horizontal',
-    loop: true,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-  });
-</script>
+```text
+http://localhost:3000/syntax/
 ```
 
-## GSAP Animations
-For animations, GSAP provides smooth and performant effects:
+The root path is also configured for deployment through `vercel.json`, but locally `serve` may redirect `/syntax/index.html` to `/syntax/`.
 
-```ruby
-gsap.to(".box", {duration: 2, x: 300});
+## Deployment
+
+This project can be deployed on Vercel as a static site.
+
+Recommended Vercel web settings:
+
+```text
+Framework Preset: Other
+Install Command: npm install
+Build Command: leave empty
+Output Directory: .
 ```
 
-## Finsweet CMS Slider Example
-Finsweet allows the creation of powerful sliders with dynamic content. Here’s an example of how to use Finsweet for CMS sliders:
+`vercel.json` rewrites the deployed root URL to the main page:
 
-```ruby
-<div class="fs-cmsslider-element" fs-cmsslider-element="slider">
-  <div class="slide">Slide Content</div>
-</div>
+```json
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/syntax/index.html"
+    }
+  ]
+}
 ```
 
-# Contributions
-## Feel free to submit a pull request or open issues for any bugs you find. We welcome all contributions!
+## Notes
 
-# License
-This project is licensed under the MIT License.
-
-```bash
-
-Simply copy the above and paste it into your `README.md` file in your GitHub repository. It covers everything from the tech stack to code examples for the key components used in your project.
-```
+- Do not commit `node_modules`; it is ignored in `.gitignore`.
+- The exported template originally referenced several Webflow/CDN paths as local folders. The main page has been patched to load bundled local libraries from `files/` where available and valid `https://` CDN URLs where needed.
+- If a page is blank, check the browser console and Network tab for `404` errors first. Most issues will be caused by a missing or incorrectly rewritten asset path.
